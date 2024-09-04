@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: my-php-web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: my-php-db
+    environment:
+      POSTGRES_DB: railway
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: VvphRVaIHGzWXhEwcnPWUbYxfnkbJSaO
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+
+# docker-compose build
+# docker-compose up
